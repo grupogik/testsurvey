@@ -63,7 +63,7 @@ echo '<html>
 		<input type="submit"   value="Resumen" /></form></td><td></td>
 				
 				<td><form action="borrar_encuesta.php" method="post" >
-		<input type="submit"   value="Borar encuesta" /></form></td><td></td>
+		<input type="submit"   value="Borrar encuesta" /></form></td><td></td>
 				
 				
 
