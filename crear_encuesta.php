@@ -56,28 +56,31 @@ $PAGE->set_pagelayout('incourse');
 // Show the page header
 echo $OUTPUT->header();
 
-echo '<td><h1></h1>
-		<h1>&nbsp;&nbsp;
-		AYUDANOS A AYUDARTE
-				</h1></td>';
-echo '<html>
-		<body>
-			<table>	<td><center>
-				<td><form action="crear_encuesta.php" method="post" >
-		<input type="submit"   value="Crear encuesta" /></form></td><td></td>
+echo'<form action="aviso_satis.php" method="post" enctype="multipart/form-data">
+<table>
+<tr><td>Nombre de encuesta: </td><td><input type="text" name="nombre" />*</td></tr>'
 				
-				<td><form action="resumen.php" method="post" >
-		<input type="submit"   value="Resumen" /></form></td><td></td>
 				
-				<td><form action="borrar_encuesta.php" method="post" >
-		<input type="submit"   value="Borar encuesta" /></form></td><td></td>
 				
+$mform = $this->_form;
 				
 
-				
-</table>
-</body>
-</html>';
+$mform->addElement('date_time_selector', 'assesstimestart', get_string('from'));
+		
+		
+		
+		
+		
+		
+
+	'</td>
+</tr>
+		 <tr><td></td><td><p><input name=enviardatos type="submit" /></p></td><td></td></tr>
+		<tr><td> </td><td> *Campos obligatorios </td></tr>
+
+		</table>';
+
+
 
 // Show the page footer
 echo $OUTPUT->footer();
