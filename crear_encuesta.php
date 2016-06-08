@@ -1,4 +1,4 @@
-<html>
+
 <html>
 <head>
 <title>Proyecto GIK</title>
@@ -17,7 +17,7 @@
 
 
 </body>
-</html>
+
 <?php
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -41,6 +41,7 @@
  */
 // Minimum for Moodle to work, the basic libraries
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
+require_once ('forms/form_encuesta.php');
 // Parameter passed from the url.
 //$name = required_param('name', PARAM_TEXT);
 // Moodle pages require a context, that can be system, course or module (activity or resource)
@@ -49,31 +50,33 @@ $PAGE->set_context($context);
 // Check that user is logued in the course.
 require_login();
 $PAGE->set_pagelayout('incourse');
+$PAGE->set_url(new moodle_url('/local/testsurvey/crear_encuesta.php'));
 // Show the page header
 echo $OUTPUT->header();
 
-echo '<html>
-		<body>
-		<form action="encuesta_subida.php" method="post" enctype="multipart/form-data">
-<table>
-<tr><td>Nombre de encuesta: </td><td><input type="text" name="nombre" />*</td></tr>
-				
-				
-				
-
-	
-	</td>
-</tr>
-		 <tr><td></td><td><p><input name=enviardatos type="submit" /></p></td><td></td></tr>
-		<tr><td> </td><td> *Campos obligatorios </td></tr>
-
-		</table>
-
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></td><a href="inicio.php">volver</a></td>
-</body>
-</html>';
 
 
+
+
+
+
+$mform = new form_encuesta ();
+if ($fromform = $mform->get_data ()) { // In this case you process validated data. $mform->get_data() returns data posted in form.
+	echo $mform->get_data ()->name;
+	echo $mform->get_data ()->timestart;
+	$survey = new stdClass ();
+	$survey->name = $mform->get_data ()->name;
+	$survey->timestart = $mform->get_data ()->timestart;
+	$surveyid = $DB->insert_record ( 'local_testsurvey', $survey );
+	// REDIRECCIONAR A encuesta_subida.php SI SE GUARDA CORRECTAMENTE.
+} else {
+	$mform->display ();
+}
+
+
+$urlinicio = new moodle_url('/local/testsurvey/inicio.php');
+echo $OUTPUT->single_button($urlinicio, 'Volver');
+		        	
 
 // Show the page footer
 echo $OUTPUT->footer();

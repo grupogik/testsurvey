@@ -1,4 +1,4 @@
-<html>
+
 <html>
 <head>
 <title>Proyecto GIK</title>
@@ -14,7 +14,7 @@
 		
 
 </body>
-</html>
+
 <?php
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -46,11 +46,23 @@ $PAGE->set_context($context);
 // Check that user is logued in the course.
 require_login();
 $PAGE->set_pagelayout('incourse');
+$PAGE->set_url(new moodle_url('/local/testsurvey/listado_encuestas.php'));
 // Show the page header
 echo $OUTPUT->header();
 
+$encuestas = $DB->get_records('local_testsurvey');
+
+
+foreach($encuestas as $enc) {
+	echo $enc->name . " " . $enc->id . " " . $enc->timestart .
+	'<a href="contestar_encuesta.php?idenc='.$enc->id.'"> contestar </a><br/>';
+	
+}
+	
+
+echo "<a href='http://localhost/moodle/course/index.php'>Volver</a>";
 
 
 // Show the page footer
 echo $OUTPUT->footer();
-?>
+ ?>

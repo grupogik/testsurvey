@@ -3,7 +3,7 @@
 <head>
 <title>Proyecto GIK</title>
 </head>
-<body 
+<body> 
 
 <tr>
 
@@ -48,8 +48,24 @@ $PAGE->set_context($context);
 // Check that user is logued in the course.
 require_login();
 $PAGE->set_pagelayout('incourse');
+$PAGE->set_url(new moodle_url('/local/testsurvey/borrar_encuesta.php'));
 // Show the page header
 echo $OUTPUT->header();
+
+$encuestas = $DB->get_records('local_testsurvey');
+
+
+foreach($encuestas as $enc) {
+	echo $enc->name . " " . $enc->id . " " . $enc->timestart .
+	'<html>
+		<body>
+
+	<a href="inicio.php"> BORRAR </a></td>
+		<br>
+	</body>
+</html>';
+
+}
 
 
 echo '<html>

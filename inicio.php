@@ -1,5 +1,4 @@
 <html>
-<html>
 <head>
 <title>Proyecto GIK</title>
 </head>
@@ -14,7 +13,7 @@
 		
 
 </body>
-</html>
+
 <?php
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -46,6 +45,7 @@ $PAGE->set_context($context);
 // Check that user is logued in the course.
 require_login();
 $PAGE->set_pagelayout('incourse');
+$PAGE->set_url(new moodle_url('/local/testsurvey/inicio.php'));
 // Show the page header
 echo $OUTPUT->header();
 
@@ -65,7 +65,7 @@ echo '<html>
 				<td><form action="borrar_encuesta.php" method="post" >
 		<input type="submit"   value="Borrar encuesta" /></form></td><td></td>
 				
-				
+				</center>
 
 				
 </table>

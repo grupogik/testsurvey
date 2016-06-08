@@ -41,37 +41,49 @@
  */
 // Minimum for Moodle to work, the basic libraries
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-require_once ('forms/form_encuesta.php');
+require_once ('forms/form_respuesta.php');
 // Parameter passed from the url.
-//$name = required_param('name', PARAM_TEXT);
+$idenc = required_param('idenc', PARAM_INT);
 // Moodle pages require a context, that can be system, course or module (activity or resource)
 $context = context_system::instance();
 $PAGE->set_context($context);
 // Check that user is logued in the course.
-require_login();
 $PAGE->set_pagelayout('incourse');
+$PAGE->set_url(new moodle_url('/local/testsurvey/contestar_encuesta.php', array('idenc'=>$idenc)));
+require_login();
 // Show the page header
 echo $OUTPUT->header();
 
 
 
+		
+		
 
+global $USER;
+$iduser = $USER->id;
 
-
-
-$mform = new form_respuesta();
+$mform = new form_respuesta(null, array('idenc'=>$idenc));
 if ($fromform = $mform->get_data ()) { // In this case you process validated data. $mform->get_data() returns data posted in form.
-	echo $mform->get_data ()->dificultad;
 	$survey = new stdClass ();
 	$survey->dificultad = $mform->get_data ()->dificultad;
-
-	$surveyid = $DB->insert_record ( 'respuesta_alumno', $survey );
+	$survey->userid = $iduser;
+	$survey->id_encuesta = 	$mform->get_data()->idenc;
+	$surveyid = $DB->insert_record ( 'local_respuestas', $survey );	
+	
+	echo $OUTPUT->notification('Muchas gracias', 'notifysuccess');
 } else {
+echo '¿Como estuvo la prueba?';
+echo "<br>";
+echo 'haga click sobre el grado de dificultad de la evaluación,
+		considerando 1 como muy fácil y 5 como muy díficil.';
+
 	$mform->display ();
 }
 
 
-echo "<a href=''>Volver</a>";
+//echo "<a href='inicio.php'>Volver</a>";
+$urlinicio = new moodle_url('/local/testsurvey/inicio.php');
+echo $OUTPUT->single_button($urlinicio, 'Volver');
 
 // Show the page footer
 echo $OUTPUT->footer();
