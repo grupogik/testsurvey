@@ -7,8 +7,9 @@
 
 <tr>
 
-		<td><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		TEST SURVEY</h1></td>
+		<pre> 
+		       TEST SURVEY
+		</pre>
 		
 		
 		
@@ -41,7 +42,7 @@
 // Minimum for Moodle to work, the basic libraries
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 // Parameter passed from the url.
-//$name = required_param('name', PARAM_TEXT);
+$idenc = optional_param('id', 0, PARAM_INT);
 // Moodle pages require a context, that can be system, course or module (activity or resource)
 $context = context_system::instance();
 $PAGE->set_context($context);
@@ -54,26 +55,19 @@ echo $OUTPUT->header();
 
 $encuestas = $DB->get_records('local_testsurvey');
 
-
+if($idenc > 0) {
+	 $resultado = $DB->delete_records ( 'local_testsurvey', array('id'=>$idenc));
+	 var_dump($resultado);
+	 echo $OUTPUT->notification('Su encuesta se borro satisfactoriamente', 'notifysuccess');
+} else {
 foreach($encuestas as $enc) {
-	echo $enc->name . " " . $enc->id . " " . $enc->timestart .
-	'<html>
-		<body>
-
-	<a href="inicio.php"> BORRAR </a></td>
-		<br>
-	</body>
-</html>';
-
+	echo $enc->name . " " . $enc->id . " " . $enc->timestart . "<a href='borrar_encuesta.php?id=" . $enc->id . "'>Borrar</a><br/>";
+}
 }
 
 
-echo '<html>
-		<body>
-			
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1></td><a href="inicio.php">volver</a></td>
-</body>
-</html>';
+$urlinicio = new moodle_url('/local/testsurvey/inicio.php');
+echo $OUTPUT->single_button($urlinicio, 'Volver');
 				
 
 				

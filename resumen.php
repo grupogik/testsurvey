@@ -5,9 +5,9 @@
 </head>
 <body>
 
-		<td><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		TEST SURVEY</h1></td>
-		
+		<pre> 
+		       TEST SURVEY
+		</pre>
 		
 		
 		
@@ -50,8 +50,22 @@ $PAGE->set_url(new moodle_url('/local/testsurvey/resumen.php'));
 // Show the page header
 echo $OUTPUT->header();
 
-$table = new html_table();
-$table->head = array('Nombre encuesta ','1', '2', '3','4', '5');
+$rec=$DB->get_recordset_sql('SELECT lt.id, lt.name, dificultad, count(*) as total 
+FROM `mdl_local_respuestas` as lr, mdl_local_testsurvey as lt
+WHERE lr.id_encuesta = lt.id
+group by lt.id, lr.dificultad');
+$data = array();
+foreach ($rec as $records) {
+	if(!isset($data[$records->id])) {
+		$data[$records->id] = array($records->name, 0, 0, 0, 0, 0);
+	}
+	$data[$records->id][$records->dificultad] = $records->total;
+}
+	$table = new html_table();
+$table->head = array('Nombre encuesta','1', '2', '3','4', '5');
+foreach ($data as $records) {
+	$table->data[] = $records;
+}
 
 echo html_writer::table($table);
 

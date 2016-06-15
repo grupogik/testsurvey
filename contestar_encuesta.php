@@ -7,9 +7,9 @@
 
 <tr>
 
-		<td><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		TEST SURVEY</h1></td>
-		
+		<pre> 
+		       TEST SURVEY
+		</pre>
 		
 
 		
@@ -82,7 +82,7 @@ echo 'haga click sobre el grado de dificultad de la evaluación,
 
 
 //echo "<a href='inicio.php'>Volver</a>";
-$urlinicio = new moodle_url('/local/testsurvey/inicio.php');
+$urlinicio = new moodle_url('http://localhost/moodle/course/view.php?id=2');
 echo $OUTPUT->single_button($urlinicio, 'Volver');
 
 // Show the page footer

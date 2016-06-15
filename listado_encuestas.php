@@ -5,9 +5,9 @@
 </head>
 <body>
 
-		<td><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		TEST SURVEY</h1></td>
-		
+		<pre> 
+		       TEST SURVEY
+		</pre>
 		
 		
 		
@@ -50,18 +50,21 @@ $PAGE->set_url(new moodle_url('/local/testsurvey/listado_encuestas.php'));
 // Show the page header
 echo $OUTPUT->header();
 
-$encuestas = $DB->get_records('local_testsurvey');
+$encuestas = $DB->get_records_sql('SELECT * FROM {local_testsurvey} WHERE id NOT IN 
+		(SELECT distinct id_encuesta FROM {local_respuestas} WHERE userid=?)',
+		array($USER->id));
 
 
 foreach($encuestas as $enc) {
+	echo date('d-m-Y', $enc->timestart);
 	echo $enc->name . " " . $enc->id . " " . $enc->timestart .
 	'<a href="contestar_encuesta.php?idenc='.$enc->id.'"> contestar </a><br/>';
 	
 }
 	
 
-echo "<a href='http://localhost/moodle/course/index.php'>Volver</a>";
-
+$urlinicio = new moodle_url('http://localhost/moodle/course/view.php?id=2');
+echo $OUTPUT->single_button($urlinicio, 'Volver');
 
 // Show the page footer
 echo $OUTPUT->footer();

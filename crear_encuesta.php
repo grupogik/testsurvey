@@ -7,9 +7,9 @@
 
 <tr>
 
-		<td><h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		TEST SURVEY</h1></td>
-		
+		<pre> 
+		       TEST SURVEY
+		</pre>
 		
 
 		
@@ -69,6 +69,7 @@ if ($fromform = $mform->get_data ()) { // In this case you process validated dat
 	$survey->timestart = $mform->get_data ()->timestart;
 	$surveyid = $DB->insert_record ( 'local_testsurvey', $survey );
 	// REDIRECCIONAR A encuesta_subida.php SI SE GUARDA CORRECTAMENTE.
+	echo $OUTPUT->notification('La encuesta se a agregado satisfactoriamente', 'notifysuccess');
 } else {
 	$mform->display ();
 }
